@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_course/products.dart';
 
-class ProductManager extends StatefulWidget{
+class ProductManager extends StatefulWidget {
   final String startingProduct;
 
   ProductManager(this.startingProduct);
@@ -13,9 +13,9 @@ class ProductManager extends StatefulWidget{
 }
 
 class _ProductManagerState extends State<ProductManager> {
-    List<String> _products = [];
+  List<String> _products = [];
 
-    @override
+  @override
   void initState() {
     _products.add(widget.startingProduct);
     super.initState();
@@ -23,20 +23,19 @@ class _ProductManagerState extends State<ProductManager> {
 
   @override
   Widget build(BuildContext context) {
-
-    return Column(children: [Container(
-              margin: EdgeInsets.all(10.0),
-              child: RaisedButton(
-                onPressed: () {
-                  setState(() {
-                    _products.add('Food Heater');
-                  });
-                },
-                child: Text('Add Product'),
-              ),
-            ),
-            Products(_products)
+    return Column(children: [
+      Container(
+        margin: EdgeInsets.all(10.0),
+        child: RaisedButton(
+          onPressed: () {
+            setState(() {
+              _products.add('Food Heater');
+            });
+          },
+          child: Text('Add Product'),
+        ),
+      ),
+      Products(_products)
     ]);
   }
-
 }
