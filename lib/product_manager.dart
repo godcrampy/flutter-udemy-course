@@ -4,7 +4,7 @@ import 'package:flutter_course/products.dart';
 class ProductManager extends StatefulWidget{
   final String startingProduct;
 
-  ProductManager(this.startingProduct)
+  ProductManager(this.startingProduct);
 
   @override
   State<StatefulWidget> createState() {
