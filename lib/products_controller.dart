@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ProductController extends StatelessWidget{
@@ -9,11 +10,12 @@ class ProductController extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
 
-    return RaisedButton(
+    return CupertinoButton(
+          disabledColor: Colors.red,
           color: Theme.of(context).accentColor,
-          textColor: Colors.white,
+          
           onPressed: () {
-            addProduct();
+            addProduct('Sweets');
           },
           child: Text('Add Product'),
         );

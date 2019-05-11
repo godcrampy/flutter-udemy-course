@@ -22,9 +22,9 @@ class _ProductManagerState extends State<ProductManager> {
     super.initState();
   }
 
-  void _addProduct(){
+  void _addProduct(String product){
     setState(() {
-              _products.add('Food Heater');
+              _products.add(product);
             });
   }
 
