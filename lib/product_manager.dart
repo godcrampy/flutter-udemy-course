@@ -22,20 +22,18 @@ class _ProductManagerState extends State<ProductManager> {
     super.initState();
   }
 
-  void _addProduct(String product){
+  void _addProduct(String product) {
     setState(() {
-              _products.add(product);
-            });
+      _products.add(product);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Column(children: [
       Container(
-        margin: EdgeInsets.all(10.0),
-        child: ProductController(_addProduct)
-      ),
-      Products(_products)
+          margin: EdgeInsets.all(10.0), child: ProductController(_addProduct)),
+      Expanded(child: Products(_products))
     ]);
   }
 }
