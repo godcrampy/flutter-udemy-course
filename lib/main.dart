@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_course/pages/auth.dart';
 import 'package:flutter_course/pages/product.dart';
 import 'package:flutter_course/pages/products.dart';
 import 'package:flutter_course/pages/products_admin.dart';
@@ -17,7 +18,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  List<Map<String, String>> _products = [];
+  List<Map<String, dynamic>> _products = [];
 
   void _addProduct(Map product) {
     setState(() {
@@ -36,11 +37,11 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       theme: ThemeData(
           primarySwatch: Colors.deepOrange, accentColor: Colors.orange),
-      // home: AuthPage(),
       routes: {
-        '/admin': (BuildContext context) => ProductsAdminPage(),
-        '/': (BuildContext context) =>
-            ProductsPage(_products, _addProduct, _deleteProduct)
+        '/admin': (BuildContext context) =>
+            ProductsAdminPage(_addProduct, _deleteProduct),
+        '/home': (BuildContext context) => ProductsPage(_products),
+        '/' : (BuildContext context)=>AuthPage()
       },
       onGenerateRoute: (RouteSettings settings) {
         final List<String> pathElements = settings.name.split('/');
@@ -57,7 +58,7 @@ class _MyAppState extends State<MyApp> {
       },
       onUnknownRoute: (RouteSettings settings) {
         return MaterialPageRoute(builder: (BuildContext context) {
-          ProductsPage(_products, _addProduct, _deleteProduct);
+          ProductsPage(_products);
         });
       },
     );
