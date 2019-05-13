@@ -1,29 +1,45 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_course/pages/products.dart';
+import 'package:flutter_course/pages/product_create.dart';
+import 'package:flutter_course/pages/product_list.dart';
 
 class ProductsAdminPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        drawer: Drawer(
-          child: Column(
-            children: <Widget>[
-              AppBar(
-                title: Text("Manage Products"),
+    return DefaultTabController(
+        length: 2,
+        child: Scaffold(
+            drawer: Drawer(
+              child: Column(
+                children: <Widget>[
+                  AppBar(
+                    title: Text("Manage Products"),
+                  ),
+                  ListTile(
+                    title: Text('All Products'),
+                    onTap: () {
+                      Navigator.pushReplacementNamed(context, '/');
+                    },
+                  )
+                ],
               ),
-              ListTile(
-                title: Text('All Products'),
-                onTap: () {
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => ProductsPage()));
-                },
-              )
-            ],
-          ),
-        ),
-        appBar: AppBar(
-          title: Text('Manage Products'),
-        ),
-        body: Center(child: Text("Manage Products")));
+            ),
+            appBar: AppBar(
+              title: Text('Manage Products'),
+              bottom: TabBar(
+                tabs: <Widget>[
+                  Tab(
+                    icon: Icon(Icons.add),
+                    text: 'Create Product',
+                  ),
+                  Tab(
+                    text: 'My Products',
+                    icon: Icon(Icons.list),
+                  )
+                ],
+              ),
+            ),
+            body: TabBarView(
+              children: <Widget>[ProductCreatePage(), ProductListPage()],
+            )));
   }
 }
