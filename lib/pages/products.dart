@@ -19,7 +19,8 @@ class ProductsPage extends StatelessWidget {
                   Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (BuildContext context) => ProductsAdminPage()));
+                          builder: (BuildContext context) =>
+                              ProductsAdminPage()));
                 },
               )
             ],

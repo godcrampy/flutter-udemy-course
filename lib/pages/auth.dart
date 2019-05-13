@@ -8,7 +8,8 @@ class AuthPage extends StatelessWidget {
         appBar: AppBar(
           title: Text('EasyList'),
         ),
-        body: Center(child: RaisedButton(
+        body: Center(
+            child: RaisedButton(
           child: Text('Login'),
           onPressed: () {
             Navigator.pushReplacement(

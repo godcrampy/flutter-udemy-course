@@ -7,7 +7,6 @@ class Products extends StatelessWidget {
 
   Products(this.products, this.deleteProduct);
 
-
   Widget _buildProductItem(BuildContext context, int index) {
     return Card(
       child: Column(
@@ -20,15 +19,16 @@ class Products extends StatelessWidget {
               FlatButton(
                 child: Text('Details'),
                 onPressed: () => Navigator.push<bool>(
-                    context,
-                    MaterialPageRoute(
-                        builder: (BuildContext context) => ProductPage(
-                            products[index]['title'],
-                            products[index]['imageUrl']))).then((bool value){
-                              if(value){
-                                deleteProduct(index);
-                              }
-                            }),
+                            context,
+                            MaterialPageRoute(
+                                builder: (BuildContext context) => ProductPage(
+                                    products[index]['title'],
+                                    products[index]['imageUrl'])))
+                        .then((bool value) {
+                      if (value) {
+                        deleteProduct(index);
+                      }
+                    }),
               )
             ],
           )
