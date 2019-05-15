@@ -31,13 +31,14 @@ class ProductCard extends StatelessWidget {
             // child: Text('Details'),
             onPressed: () => Navigator.pushNamed<bool>(
                 context, '/product/' + index.toString())),
-        IconButton(
+        GestureDetector(onLongPress:() {Scaffold.of(context).showSnackBar(SnackBar(content: Text("Like")));},
+            child: IconButton(
           icon: Icon(
             Icons.favorite_border,
             color: Colors.pinkAccent,
           ),
           onPressed: () {},
-        )
+        ))
       ],
     );
   }
