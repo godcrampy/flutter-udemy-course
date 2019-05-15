@@ -41,7 +41,7 @@ class _MyAppState extends State<MyApp> {
         '/admin': (BuildContext context) =>
             ProductsAdminPage(_addProduct, _deleteProduct),
         '/home': (BuildContext context) => ProductsPage(_products),
-        '/' : (BuildContext context)=>AuthPage()
+        '/': (BuildContext context) => AuthPage()
       },
       onGenerateRoute: (RouteSettings settings) {
         final List<String> pathElements = settings.name.split('/');
@@ -52,7 +52,7 @@ class _MyAppState extends State<MyApp> {
           final int index = int.parse(pathElements[2]);
           return MaterialPageRoute<bool>(
               builder: (BuildContext context) => ProductPage(
-                  _products[index]['title'], _products[index]['imageUrl']));
+                  _products[index]['title'], _products[index]['image'], index, _deleteProduct));
         }
         return null;
       },

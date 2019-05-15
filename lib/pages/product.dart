@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 
 class ProductPage extends StatelessWidget {
   final String title;
-  final String imageUrl;
-  ProductPage(this.title, this.imageUrl);
+  final String image;
+  final int index;
+  final Function deleteProduct;
+  ProductPage(this.title, this.image, this.index, this.deleteProduct);
 
   _showWarningDialogue(BuildContext context) {
     showDialog(
@@ -24,6 +26,7 @@ class ProductPage extends StatelessWidget {
                 onPressed: () {
                   Navigator.pop(context);
                   Navigator.pop(context, true);
+                  deleteProduct(index);
                 },
               )
             ],
@@ -45,7 +48,7 @@ class ProductPage extends StatelessWidget {
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Image.asset(imageUrl),
+                    Image.asset(image),
                     Container(
                         padding: EdgeInsets.all(10.0),
                         child: Text('Product Page')),
