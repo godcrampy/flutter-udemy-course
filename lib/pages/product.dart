@@ -1,11 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_course/widgets/ui_elements/title_default.dart';
 
 class ProductPage extends StatelessWidget {
   final String title;
   final String image;
+  final String description;
+  final double price;
   final int index;
   final Function deleteProduct;
-  ProductPage(this.title, this.image, this.index, this.deleteProduct);
+  ProductPage(this.title, this.image, this.description, this.price, this.index,
+      this.deleteProduct);
+
+  Widget _buildAddressPriceRow() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Text(
+          'Union Square, San Francisco' + " | \$" + price.toStringAsFixed(2),
+          style: TextStyle(
+              color: Colors.grey,
+              fontWeight: FontWeight.bold,
+              fontFamily: 'Oswald'),
+        ),
+      ],
+    );
+  }
 
   _showWarningDialogue(BuildContext context) {
     showDialog(
@@ -13,7 +32,7 @@ class ProductPage extends StatelessWidget {
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text("Are You Sure"),
-            content: Text("This Actin cant be undone"),
+            content: Text("This action cannot be undone"),
             actions: <Widget>[
               FlatButton(
                 child: Text('Cancel'),
@@ -49,13 +68,27 @@ class ProductPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Image.asset(image),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    TitleDefault(title),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    _buildAddressPriceRow(),
                     Container(
-                        padding: EdgeInsets.all(10.0),
-                        child: Text('Product Page')),
-                    RaisedButton(
+                      padding: EdgeInsets.all(10.0),
+                      child: Text(
+                        description,
+                        style: TextStyle(fontSize: 15.0),
+                      ),
+                    ),
+                    IconButton(
                         color: Theme.of(context).accentColor,
-                        textColor: Colors.white,
-                        child: Text('Delete Product'),
+                        icon: Icon(
+                          Icons.delete,
+                          color: Colors.red,
+                        ),
                         onPressed: () {
                           _showWarningDialogue(context);
                         })
