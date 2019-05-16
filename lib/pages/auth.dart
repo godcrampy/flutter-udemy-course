@@ -9,10 +9,12 @@ class AuthPage extends StatefulWidget {
 }
 
 class _AuthPageState extends State<AuthPage> {
-  String _emailValue;
-  String _passwordValue;
-  bool _acceptTerms = false;
-
+  final Map<String, dynamic> _formData = {
+    'email': null,
+    'password': null,
+    'acceptTerms': false
+  };
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   DecorationImage _buildBackgroundWidget() {
     return DecorationImage(
         image: AssetImage('assets/background.jpg'),
@@ -22,26 +24,38 @@ class _AuthPageState extends State<AuthPage> {
   }
 
   Widget _buildEmailTextfield() {
-    return TextField(
+    return TextFormField(
       decoration: InputDecoration(
           labelText: 'E-Mail', fillColor: Colors.white, filled: true),
       keyboardType: TextInputType.emailAddress,
-      onChanged: (String value) {
+      validator: (String value) {
+        if (value.isEmpty ||
+            !RegExp(r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
+                .hasMatch(value)) {
+          return 'Please enter a valid email';
+        }
+      },
+      onSaved: (String value) {
         setState(() {
-          _emailValue = value;
+          _formData['email'] = value;
         });
       },
     );
   }
 
   Widget _buildPasswordTextfield() {
-    return TextField(
+    return TextFormField(
       decoration: InputDecoration(
           labelText: 'Password', fillColor: Colors.white, filled: true),
       obscureText: true,
-      onChanged: (String value) {
+      validator: (String value) {
+        if (value.isEmpty || value.length < 6) {
+          return 'Password invalid';
+        }
+      },
+      onSaved: (String value) {
         setState(() {
-          _passwordValue = value;
+          _formData['password'] = value;
         });
       },
     );
@@ -49,10 +63,10 @@ class _AuthPageState extends State<AuthPage> {
 
   Widget _buildAcceptSwitchTile() {
     return SwitchListTile(
-      value: _acceptTerms,
+      value: _formData['acceptTerms'],
       onChanged: (bool value) {
         setState(() {
-          _acceptTerms = value;
+          _formData['acceptTerms'] = value;
         });
       },
       title: Text(
@@ -64,6 +78,10 @@ class _AuthPageState extends State<AuthPage> {
   }
 
   void _submitForm() {
+    if (!_formKey.currentState.validate() || !_formData['acceptTerms']) {
+      return;
+    }
+    _formKey.currentState.save();
     Navigator.pushReplacementNamed(context, '/home');
   }
 
@@ -80,21 +98,23 @@ class _AuthPageState extends State<AuthPage> {
                 child: SingleChildScrollView(
                     child: Container(
                         width: MediaQuery.of(context).size.width * 0.8,
-                        child: Column(
-                          children: <Widget>[
-                            _buildEmailTextfield(),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            _buildPasswordTextfield(),
-                            _buildAcceptSwitchTile(),
-                            RaisedButton(
-                              color: Theme.of(context).primaryColor,
-                              textColor: Colors.white,
-                              child: Text('Login'),
-                              onPressed: _submitForm,
-                            )
-                          ],
-                        ))))));
+                        child: Form(
+                            key: _formKey,
+                            child: Column(
+                              children: <Widget>[
+                                _buildEmailTextfield(),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                _buildPasswordTextfield(),
+                                _buildAcceptSwitchTile(),
+                                RaisedButton(
+                                  color: Theme.of(context).primaryColor,
+                                  textColor: Colors.white,
+                                  child: Text('Login'),
+                                  onPressed: _submitForm,
+                                )
+                              ],
+                            )))))));
   }
 }
