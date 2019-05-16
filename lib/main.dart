@@ -32,6 +32,12 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  void _updateProduct(int index, Map product){
+    setState(() {
+      _products[index] = product;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -40,7 +46,7 @@ class _MyAppState extends State<MyApp> {
           primarySwatch: Colors.deepOrange, accentColor: Colors.orange),
       routes: {
         '/admin': (BuildContext context) =>
-            ProductsAdminPage(_addProduct, _deleteProduct),
+            ProductsAdminPage(_addProduct,_updateProduct, _deleteProduct, _products),
         '/home': (BuildContext context) => ProductsPage(_products),
         '/': (BuildContext context) => AuthPage()
       },
