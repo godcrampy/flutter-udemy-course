@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_course/models/product.dart';
 import 'package:flutter_course/widgets/products/address_tag.dart';
 import 'package:flutter_course/widgets/products/price_tag.dart';
 import 'package:flutter_course/widgets/ui_elements/title_default.dart';
 
 class ProductCard extends StatelessWidget {
-  final Map<String, dynamic> product;
+  final Product product;
   final int index;
 
   ProductCard(this.product, this.index);
@@ -13,9 +14,9 @@ class ProductCard extends StatelessWidget {
     return Container(
         margin: EdgeInsets.only(top: 10.0),
         child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          TitleDefault(product['title']),
+          TitleDefault(product.title),
           SizedBox(width: 5.0),
-          PriceTag(product['price'])
+          PriceTag(product.price)
         ]));
   }
 
@@ -31,14 +32,18 @@ class ProductCard extends StatelessWidget {
             // child: Text('Details'),
             onPressed: () => Navigator.pushNamed<bool>(
                 context, '/product/' + index.toString())),
-        GestureDetector(onLongPress:() {Scaffold.of(context).showSnackBar(SnackBar(content: Text("Like")));},
+        GestureDetector(
+            onLongPress: () {
+              Scaffold.of(context)
+                  .showSnackBar(SnackBar(content: Text("Like")));
+            },
             child: IconButton(
-          icon: Icon(
-            Icons.favorite_border,
-            color: Colors.pinkAccent,
-          ),
-          onPressed: () {},
-        ))
+              icon: Icon(
+                Icons.favorite_border,
+                color: Colors.pinkAccent,
+              ),
+              onPressed: () {},
+            ))
       ],
     );
   }
@@ -52,7 +57,7 @@ class ProductCard extends StatelessWidget {
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
           child: Column(
             children: <Widget>[
-              Image.asset(product['image']),
+              Image.asset(product.image),
               _buildTitlePriceRow(),
               AddressTag('Union Square, San Francisco'),
               _buildActionButtons(context)

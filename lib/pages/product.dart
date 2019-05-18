@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_course/widgets/ui_elements/title_default.dart';
+import '../scoped-models/products.dart';
+import '../models/product.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 class ProductPage extends StatelessWidget {
-  final String title;
-  final String image;
-  final String description;
-  final double price;
   final int index;
-  final Function deleteProduct;
-  ProductPage(this.title, this.image, this.description, this.price, this.index,
-      this.deleteProduct);
+  ProductPage(this.index);
 
-  Widget _buildAddressPriceRow() {
+  Widget _buildAddressPriceRow(Product product) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Text(
-          'Union Square, San Francisco' + " | \$" + price.toStringAsFixed(2),
+          'Union Square, San Francisco' +
+              " | \$" +
+              product.price.toStringAsFixed(2),
           style: TextStyle(
               color: Colors.grey,
               fontWeight: FontWeight.bold,
@@ -55,35 +54,39 @@ class ProductPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-        onWillPop: () {
-          Navigator.pop(context, false);
-        },
-        child: Scaffold(
-            appBar: AppBar(
-              title: Text(title),
-            ),
-            body: Center(
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Image.asset(image),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    TitleDefault(title),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    _buildAddressPriceRow(),
-                    Container(
-                      padding: EdgeInsets.all(10.0),
-                      child: Text(
-                        description,
-                        style: TextStyle(fontSize: 15.0),
+    return ScopedModelDescendant<ProductsModel>(
+        builder: (BuildContext context, Widget child, ProductsModel model) {
+      Product product = model.products[index];
+      return WillPopScope(
+          onWillPop: () {
+            Navigator.pop(context, false);
+          },
+          child: Scaffold(
+              appBar: AppBar(
+                title: Text(product.title),
+              ),
+              body: Center(
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Image.asset(product.image),
+                      SizedBox(
+                        height: 10,
                       ),
-                    ),
-                  ]),
-            )));
+                      TitleDefault(product.title),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      _buildAddressPriceRow(product),
+                      Container(
+                        padding: EdgeInsets.all(10.0),
+                        child: Text(
+                          product.description,
+                          style: TextStyle(fontSize: 15.0),
+                        ),
+                      ),
+                    ]),
+              )));
+    });
   }
 }

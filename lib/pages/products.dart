@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_course/widgets/products/products.dart';
 
 class ProductsPage extends StatelessWidget {
-  final List<Map<String, dynamic>> products;
-
   Widget _buildSideDrawer(BuildContext context) {
     return Drawer(
       child: Column(
@@ -24,7 +22,6 @@ class ProductsPage extends StatelessWidget {
     );
   }
 
-  ProductsPage(this.products);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,6 +42,6 @@ class ProductsPage extends StatelessWidget {
             )
           ],
         ),
-        body: Products(products));
+        body: Products());
   }
 }
