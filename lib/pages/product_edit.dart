@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_course/models/product.dart';
+import 'package:flutter_course/scoped-models/main.dart';
 import 'package:scoped_model/scoped_model.dart';
-import '../scoped-models/products.dart';
 import '../models/product.dart';
 
 class ProductEditPage extends StatefulWidget {
@@ -60,8 +60,7 @@ class _ProductEditStatePageState extends State<ProductEditPage> {
 
   Widget _buildPriceTextField(Product product) {
     return TextFormField(
-      initialValue:
-          product == null ? '' : product.price.toString(),
+      initialValue: product == null ? '' : product.price.toString(),
       decoration: InputDecoration(labelText: 'Product Price (\$)'),
       keyboardType: TextInputType.number,
       validator: (String value) {
@@ -85,6 +84,7 @@ class _ProductEditStatePageState extends State<ProductEditPage> {
     final targetPadding = deviceWidth - targetWidth;
     return GestureDetector(
         onTap: () {
+          //Close keyboard when usres presses outside the fields
           FocusScope.of(context).requestFocus(FocusNode());
         },
         child: Container(
@@ -107,44 +107,48 @@ class _ProductEditStatePageState extends State<ProductEditPage> {
 
   Widget _buildSubmitButton() {
     return ScopedModelDescendant(
-        builder: (BuildContext context, Widget child, ProductsModel model) {
+        builder: (BuildContext context, Widget child, MainModel model) {
       return RaisedButton(
           color: Theme.of(context).accentColor,
           textColor: Colors.white,
           child: Text('Save'),
-          onPressed: () => _submitForm(model.addProduct, model.updateProduct, model.selectedProductIndex));
+          onPressed: () => _submitForm(model.addProduct, model.updateProduct,
+              model.getSelectedProductIndex, model.selectProduct));
     });
   }
 
-  void _submitForm(Function addProduct, Function updateProduct, int selectedProductIndex) {
+  void _submitForm(Function addProduct, Function updateProduct,
+      int selectedProductIndex, Function setSelectedProduct) {
     if (!_formkey.currentState.validate()) {
       return;
     }
     _formkey.currentState.save();
     if (selectedProductIndex == null) {
-      addProduct(Product(
-          title: _formData['title'],
-          description: _formData['description'],
-          price: _formData['price'],
-          image: _formData['image']));
+      addProduct(
+        _formData['title'],
+        _formData['description'],
+        _formData['image'],
+        _formData['price'],
+      );
     } else {
       updateProduct(
-          Product(
-              title: _formData['title'],
-              description: _formData['description'],
-              price: _formData['price'],
-              image: _formData['image']));
+        _formData['title'],
+        _formData['description'],
+        _formData['image'],
+        _formData['price'],
+      );
     }
-    Navigator.pushReplacementNamed(context, '/home');
+    Navigator.pushReplacementNamed(context, '/home')
+        .then((_) => setSelectedProduct(null));
   }
 
   @override
   Widget build(BuildContext context) {
-    
-    return ScopedModelDescendant<ProductsModel>(
-        builder: (BuildContext context, Widget child, ProductsModel model) {
-          final Widget pageContent = _buildPageContent(context, model.selectedProduct);
-     return model.selectedProductIndex == null
+    return ScopedModelDescendant<MainModel>(
+        builder: (BuildContext context, Widget child, MainModel model) {
+      final Widget pageContent =
+          _buildPageContent(context, model.selectedProduct);
+      return model.getSelectedProductIndex == null
           ? pageContent
           : Scaffold(
               appBar: AppBar(

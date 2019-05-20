@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_course/scoped-models/main.dart';
 import 'package:flutter_course/widgets/ui_elements/title_default.dart';
-import '../scoped-models/products.dart';
 import '../models/product.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -54,9 +54,9 @@ class ProductPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ScopedModelDescendant<ProductsModel>(
-        builder: (BuildContext context, Widget child, ProductsModel model) {
-      Product product = model.products[index];
+    return ScopedModelDescendant<MainModel>(
+        builder: (BuildContext context, Widget child, MainModel model) {
+      Product product = model.getProducts[index];
       return WillPopScope(
           onWillPop: () {
             Navigator.pop(context, false);

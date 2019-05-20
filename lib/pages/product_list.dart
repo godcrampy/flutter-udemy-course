@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_course/pages/product_edit.dart';
+import 'package:flutter_course/scoped-models/main.dart';
 import 'package:scoped_model/scoped_model.dart';
-import '../scoped-models/products.dart';
 
 class ProductListPage extends StatelessWidget {
-  Widget _buildEditButton(
-      BuildContext context, int index, ProductsModel model) {
+  Widget _buildEditButton(BuildContext context, int index, MainModel model) {
     return IconButton(
       icon: Icon(Icons.edit),
       onPressed: () {
@@ -24,8 +23,8 @@ class ProductListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ScopedModelDescendant<ProductsModel>(
-        builder: (BuildContext context, Widget child, ProductsModel model) {
+    return ScopedModelDescendant<MainModel>(
+        builder: (BuildContext context, Widget child, MainModel model) {
       return ListView.builder(
         itemBuilder: (BuildContext context, int index) {
           return Dismissible(
@@ -46,21 +45,21 @@ class ProductListPage extends StatelessWidget {
                       .showSnackBar(SnackBar(content: Text("Product Deleted")));
                 }
               },
-              key: Key(model.products[index].title),
+              key: Key(model.getProducts[index].title),
               child: Column(children: [
                 ListTile(
                     leading: CircleAvatar(
                         backgroundImage: AssetImage(
-                      model.products[index].image,
+                      model.getProducts[index].image,
                     )),
-                    title: Text(model.products[index].title),
-                    subtitle: Text(
-                        "\$" + model.products[index].price.toStringAsFixed(2)),
+                    title: Text(model.getProducts[index].title),
+                    subtitle: Text("\$" +
+                        model.getProducts[index].price.toStringAsFixed(2)),
                     trailing: _buildEditButton(context, index, model)),
                 Divider()
               ]));
         },
-        itemCount: model.products.length,
+        itemCount: model.getProducts.length,
       );
     });
   }
