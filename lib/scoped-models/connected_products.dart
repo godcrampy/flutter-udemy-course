@@ -21,7 +21,6 @@ mixin ConnectedProducts on Model {
   }
 }
 
-
 mixin ProductsModel on ConnectedProducts {
   bool _showFavorites = false;
 
@@ -58,7 +57,7 @@ mixin ProductsModel on ConnectedProducts {
         description: description,
         image: image,
         price: price,
-        userEmail: selectedProduct.userEmail, 
+        userEmail: selectedProduct.userEmail,
         userId: selectedProduct.userId);
     _products[_selectedProductIndex] = updatedProduct;
     notifyListeners();
@@ -86,7 +85,9 @@ mixin ProductsModel on ConnectedProducts {
 
   void selectProduct(int index) {
     _selectedProductIndex = index;
-    notifyListeners();
+    if (index != null) {
+      notifyListeners();
+    }
   }
 
   void toggleDisplayMode() {
@@ -96,11 +97,8 @@ mixin ProductsModel on ConnectedProducts {
 }
 
 mixin UserModel on ConnectedProducts {
-  
-
   void login(String email, String password) {
     _authenticatedUser =
         User(id: 'fdalsdfasf', email: email, password: password);
   }
 }
-
