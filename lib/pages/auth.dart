@@ -18,8 +18,7 @@ class _AuthPageState extends State<AuthPage> {
   };
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   DecorationImage _buildBackgroundWidget() {
-    return DecorationImage(
-        image: AssetImage('assets/background.jpg'),
+    return DecorationImage(image: AssetImage('assets/background.jpg'),
         fit: BoxFit.cover,
         colorFilter: ColorFilter.mode(
             Colors.black.withOpacity(0.5), BlendMode.hardLight));
